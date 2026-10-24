@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuantumCardio-AI: Explainable Quantum Machine Learning Platform</title>
+  <meta name="description" content="State-of-the-art interactive clinical dashboard for disease risk prediction combining Quantum Machine Learning (Bagging-QSVC) with SHAP Explainable AI (XAI) on Cleveland Heart Disease and Pima Diabetes datasets.">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2300f2fe'><path d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Academic Research Disclaimer -->
+  <div class="top-disclaimer-banner">
+    <div class="container">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      <span><strong>Academic Research Platform:</strong> Evaluated for viva demonstration on Cleveland Heart & Pima Diabetes cohorts. All models operate via experimental quantum simulations.</span>
+    </div>
+  </div>
+
+  <!-- Sticky Navbar -->
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar">
+        <a href="#hero" class="brand-logo" id="brand-logo">
+          <div class="logo-icon-wrapper">
+            <svg class="logo-heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+              <path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h4.28" stroke="#00f2fe" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <div class="brand-text">
+            <h1>QuantumHealth<span class="gradient-text">·AI</span></h1>
+            <span>Hybrid Quantum ML & Explainable AI</span>
+          </div>
+        </a>
+
+        <ul class="nav-links">
+          <li><button class="nav-btn active" data-target="predictor">🩺 Patient Predictor</button></li>
+          <li><button class="nav-btn" data-target="explainability">🔍 SHAP XAI</button></li>
+          <li><button class="nav-btn" data-target="quantum-lab">⚛️ Quantum Lab</button></li>
+          <li><button class="nav-btn" data-target="benchmarks">📊 Benchmarks & ROC</button></li>
+          <li><button class="nav-btn" data-target="dataset">📁 Dataset Explorer</button></li>
+        </ul>
+
+        <div class="nav-status-badge">
+          <div class="status-dot"></div>
+          <span>Python 3.14 + Qiskit</span>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ==========================================================================
+         Hero Section with 3D Quantum Heart Banner & Dataset Toggle
+         ========================================================================== -->
+    <section class="hero-section" id="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <div class="hero-badge-row">
+              <div class="hero-badge">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
+                </svg>
+                <span>Hybrid Quantum-Classical AI</span>
+              </div>
+
+              <!-- Multi-Dataset Toggle Capsule (Image 2) -->
+              <div class="dataset-switcher-capsule">
+                <button class="dataset-pill-btn active" data-dataset="cleveland" id="btn-toggle-cleveland">
+                  <span>❤️ Cleveland Heart</span>
+                </button>
+                <button class="dataset-pill-btn" data-dataset="pima" id="btn-toggle-pima">
+                  <span>🩺 Pima Diabetes</span>
+                </button>
+              </div>
+            </div>
+
+            <h1 class="hero-title">
+              Explainable Disease Prediction Using <span class="gradient-text">Ensemble-Quantum ML</span>
+            </h1>
+            <p class="hero-subtitle">
+              Pioneering hybrid quantum intelligence in clinical diagnostic workflows. Our proposed <strong>Bagging-QSVC</strong> model maps clinical biomarkers into quantum Hilbert spaces via <code>ZFeatureMap</code> and <code>ZZFeatureMap</code>, achieving <strong>90.16% test accuracy</strong> with complete transparency through <strong>SHAP (SHapley Additive exPlanations)</strong>.
+            </p>
+
+            <div class="hero-actions">
+              <button class="btn-primary" onclick="document.getElementById('predictor').scrollIntoView({behavior: 'smooth'})">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                </svg>
+                Launch Diagnostic Predictor
+              </button>
+              <button class="btn-secondary" onclick="document.getElementById('quantum-lab').scrollIntoView({behavior: 'smooth'})">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/>
+                </svg>
+                Inspect Quantum Circuits
+              </button>
+            </div>
+          </div>
+
+          <!-- 3D Quantum Heart Visual Card (Beloved Aesthetic) -->
+          <div class="hero-visual-card">
+            <img src="assets/quantum_heart_banner.jpg" alt="Quantum Heart AI Visualization" class="hero-banner-img">
+            <div class="hero-overlay-tag">
+              <div class="tag-info">
+                <span class="tag-title" id="hero-tag-title">Bagging-QSVC Quantum Kernel</span>
+                <span class="tag-sub" id="hero-tag-sub">5 Qubits · ZFeatureMap(reps=2) · C=1000 · 10 Estimators</span>
+              </div>
+              <div class="mono" style="color: var(--neon-cyan); font-weight: 800; font-size: 1.1rem;" id="hero-tag-acc">
+                90.16% Acc
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5 Stat Metrics Cards Strip (From Image 2 & 5) -->
+        <div class="metrics-strip">
+          <div class="metric-card">
+            <div class="metric-value gradient-text" id="stat-card-acc">90.16%</div>
+            <div class="metric-label">Peak Model Accuracy</div>
+            <div class="metric-note" id="stat-card-acc-sub">Outperforms Classical SVM (85.2%)</div>
+          </div>
+          <div class="metric-card violet">
+            <div class="metric-value mono" style="color: #c084fc;" id="stat-card-qubits">5 Qubits</div>
+            <div class="metric-label">Quantum State Encoding</div>
+            <div class="metric-note" id="stat-card-qubits-sub">RFE Reduced Clinical Vector</div>
+          </div>
+          <div class="metric-card rose">
+            <div class="metric-value mono" style="color: #fb7185;">100%</div>
+            <div class="metric-label">Explainable Transparency</div>
+            <div class="metric-note">SHAP Additive Attributions</div>
+          </div>
+          <div class="metric-card emerald">
+            <div class="metric-value mono" style="color: #34d399;" id="stat-card-cohort">303</div>
+            <div class="metric-label">Patient Clinical Cohort</div>
+            <div class="metric-note" id="stat-card-cohort-sub">Cleveland Medical Foundation</div>
+          </div>
+          <div class="metric-card amber">
+            <div class="metric-value" style="color: var(--amber-warn); font-size: 1.45rem;" id="stat-card-bestmodel">Bagging-QSVC</div>
+            <div class="metric-label">Top Ranked Classifier</div>
+            <div class="metric-note">Hybrid Quantum Ensemble</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Section 1: Interactive Patient Diagnostic & Quantum Risk Calculator
+         ========================================================================== -->
+    <section class="section-wrapper" id="predictor">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Interactive Clinical Assessment</div>
+          <h2 class="section-title">Patient Diagnostic <span class="gradient-text">Quantum Predictor</span></h2>
+          <p class="section-desc">
+            Simulate live quantum inference. Switch between <strong style="color: var(--neon-cyan);">Cleveland Heart</strong> and <strong style="color: var(--neon-cyan);">Pima Diabetes</strong> to test patient biomarkers with real-time ensemble voting.
+          </p>
+        </div>
+
+        <!-- Archetype Preset Chips -->
+        <div class="preset-bar" id="preset-buttons-container">
+          <!-- Dynamically populated based on active dataset -->
+        </div>
+
+        <div class="predictor-grid">
+          <!-- Left: Clinical Parameter Form -->
+          <div class="glass-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+              <h3 style="font-size: 1.2rem; display: flex; align-items: center; gap: 8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--neon-cyan)" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+                <span id="form-heading-title">Key Clinical Biomarkers (Cleveland Heart)</span>
+              </h3>
+              <span class="mono" style="font-size: 0.76rem; color: var(--neon-cyan); background: rgba(0, 242, 254, 0.1); padding: 4px 10px; border-radius: 4px;" id="form-dataset-tag">
+                Dataset: Cleveland
+              </span>
+            </div>
+
+            <!-- Dynamic Form Fields -->
+            <div class="features-form" id="dynamic-patient-form">
+              <!-- Dynamically populated by app.js based on dataset -->
+            </div>
+          </div>
+
+          <!-- Right: Diagnostic Output Card with Radial Circular Gauge (Beloved Aesthetic) -->
+          <div class="diagnosis-card low-risk" id="diagnosis-card">
+            <span style="font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-dim);">
+              Quantum Engine Diagnostic Output
+            </span>
+
+            <!-- Circular Radial SVG Gauge -->
+            <div class="gauge-container">
+              <svg class="gauge-svg" viewBox="0 0 200 200">
+                <circle class="gauge-bg-circle" cx="100" cy="100" r="90" />
+                <circle class="gauge-progress-circle" id="gauge-progress" cx="100" cy="100" r="90" />
+              </svg>
+              <div class="gauge-inner-content">
+                <span class="gauge-percent" id="gauge-percent">6.2%</span>
+                <span class="gauge-label" id="gauge-label-text">Disease Probability</span>
+              </div>
+            </div>
+
+            <!-- Status Badge -->
+            <div class="diagnosis-badge healthy" id="diagnosis-badge">
+              🛡️ Low Risk (Healthy Profile)
+            </div>
+            <div style="font-size: 0.85rem; color: var(--text-dim); margin-bottom: 1.25rem;" id="diagnosis-sub">
+              Confidence: 93.8% · Standard Routine Check
+            </div>
+
+            <!-- 10 Estimator Voting Bar -->
+            <div class="ensemble-vote-box">
+              <div class="vote-heading">
+                <span>Quantum Ensemble Sub-Estimators</span>
+                <span id="vote-count-text" class="mono">0 / 10 Voted Positive</span>
+              </div>
+              <div class="vote-dots" id="ensemble-vote-dots">
+                <!-- 10 dots inserted dynamically -->
+              </div>
+            </div>
+
+            <p style="font-size: 0.82rem; color: var(--text-dim); line-height: 1.4; margin-bottom: 1.25rem;">
+              Calculated via Quantum Kernel inner products across 10 bootstrap sub-classifiers.
+            </p>
+
+            <button class="btn-secondary" style="width: 100%; justify-content: center;" id="btn-view-report">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"/>
+                <line x1="10" y1="9" x2="14" y2="9"/><line x1="10" y1="13" x2="14" y2="13"/>
+              </svg>
+              View & Print Clinical Report
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Section 2: Explainable AI (XAI) & SHAP Force Waterfall
+         ========================================================================== -->
+    <section class="section-wrapper" id="explainability">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Explainable AI (XAI) Framework</div>
+          <h2 class="section-title">SHAP <span class="gradient-heart">Feature Attribution</span> Waterfall</h2>
+          <p class="section-desc">
+            No black-box predictions. Using <strong>SHapley Additive exPlanations (SHAP)</strong>, each clinical biomarker's exact mathematical contribution towards increasing (<span style="color: var(--heart-rose); font-weight: 700;">+ Risk</span>) or lowering (<span style="color: var(--neon-cyan); font-weight: 700;">− Protective</span>) disease probability is rendered below.
+          </p>
+        </div>
+
+        <div class="shap-grid">
+          <!-- Dynamic Patient Waterfall -->
+          <div class="glass-panel">
+            <div class="waterfall-header">
+              <div>
+                <h3 style="font-size: 1.2rem;">Live Patient SHAP Waterfall</h3>
+                <span style="font-size: 0.8rem; color: var(--text-dim);">Additive push on current simulated patient</span>
+              </div>
+              <div class="base-value-pill">
+                Baseline E[f(x)] = <strong id="shap-base-val">0.5246</strong>
+              </div>
+            </div>
+
+            <div class="waterfall-bars" id="shap-waterfall-container">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div style="margin-top: 1.75rem; padding-top: 1.25rem; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; font-size: 0.84rem; color: var(--text-dim);">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 12px; height: 12px; border-radius: 2px; background: var(--neon-blue);"></div>
+                <span>Negative SHAP (Protective / Lowers Risk)</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <div style="width: 12px; height: 12px; border-radius: 2px; background: var(--heart-rose);"></div>
+                <span>Positive SHAP (Elevates Risk)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Global Feature Importance -->
+          <div class="glass-panel">
+            <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem;">Global SHAP Importance</h3>
+            <p style="font-size: 0.82rem; color: var(--text-dim); margin-bottom: 1.5rem;" id="global-shap-desc">
+              Mean absolute SHAP impact |&phi;| across the Cleveland cohort:
+            </p>
+
+            <div id="global-shap-list-container">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div style="background: rgba(138, 43, 226, 0.12); border: 1px solid rgba(138, 43, 226, 0.35); border-radius: var(--radius-sm); padding: 12px; margin-top: 1.5rem; font-size: 0.8rem; color: #d8b4fe;" id="global-shap-insight">
+              💡 <strong>Key Finding:</strong> Fluoroscopy vessel count (<code>ca</code>) and asymptomatic chest pain (<code>cp=3</code>) provide the strongest individual quantum decision influence.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Section 3: Quantum Lab (Register Selector from Reference Image 1)
+         ========================================================================== -->
+    <section class="section-wrapper" id="quantum-lab">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Interactive Quantum Hardware Lab</div>
+          <h2 class="section-title">Quantum Lab & <span class="gradient-text">Qubit Circuit Registers</span></h2>
+          <p class="section-desc">
+            Configure feature mapping parameters, adjust qubit register sizes (2 to 6 qubits), and inspect state preparation circuits programmatically generated with Qiskit.
+          </p>
+        </div>
+
+        <div class="glass-panel">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h3 style="font-size: 1.25rem;">State Parameters & Qubit Register</h3>
+              <p style="font-size: 0.82rem; color: var(--text-dim); margin-top: 2px;">
+                Dynamic circuit synthesis for Hilbert space feature encoding.
+              </p>
+            </div>
+
+            <!-- Qubit Size Capsule (Image 1) -->
+            <div class="qubit-size-capsule">
+              <span>QUBIT REGISTER SIZE:</span>
+              <button class="qubit-chip" data-qubits="2">2</button>
+              <button class="qubit-chip" data-qubits="3">3</button>
+              <button class="qubit-chip" data-qubits="4">4</button>
+              <button class="qubit-chip active" data-qubits="5">5</button>
+              <button class="qubit-chip" data-qubits="6">6</button>
+            </div>
+          </div>
+
+          <div class="quantum-lab-grid">
+            <!-- Left: State Parameters -->
+            <div>
+              <div class="state-params-header-boxes">
+                <div class="param-box-card">
+                  <div class="title">Qubits Count</div>
+                  <div class="number mono" id="lab-qubits-count">5</div>
+                </div>
+                <div class="param-box-card">
+                  <div class="title">Circuit Depth</div>
+                  <div class="number mono" id="lab-circuit-depth">14</div>
+                </div>
+              </div>
+
+              <div style="font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--text-dim); margin-bottom: 8px;">
+                Gate Operations
+              </div>
+              <div class="meta-detail-row">
+                <span class="key">Hadamard (H) gates</span>
+                <span class="val mono" id="lab-h-gates">5</span>
+              </div>
+              <div class="meta-detail-row">
+                <span class="key">Rotation Y (Ry) gates</span>
+                <span class="val mono" id="lab-ry-gates">5</span>
+              </div>
+              <div class="meta-detail-row">
+                <span class="key">Rotation Z (Rz) gates</span>
+                <span class="val mono" id="lab-rz-gates">5</span>
+              </div>
+              <div class="meta-detail-row">
+                <span class="key">Controlled-NOT (CX) gates</span>
+                <span class="val mono" id="lab-cx-gates">10</span>
+              </div>
+
+              <div style="margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
+                <div class="meta-detail-row">
+                  <span class="key">Feature Mapping Method</span>
+                  <span class="val" id="lab-feature-method">ZZFeatureMap</span>
+                </div>
+                <div class="meta-detail-row">
+                  <span class="key">Simulation Engine</span>
+                  <span class="val mono" style="color: var(--neon-cyan);">qasm_simulator</span>
+                </div>
+                <div class="meta-detail-row">
+                  <span class="key">Execution Mode</span>
+                  <span class="val" style="color: var(--emerald-safe);">Hybrid Quantum-Classical</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Programmatic Quantum Circuit Terminal Box (Image 1) -->
+            <div class="quantum-circuit-display-card">
+              <div>
+                <h4 style="font-size: 1.05rem; color: #ffffff;">Programmatic Quantum Circuit</h4>
+                <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 3px;">
+                  Generated programmatically using Qiskit. Prints the layout representing state preparation.
+                </p>
+
+                <div class="circuit-ascii-container" id="circuit-ascii-box">
+q_0: | H | Ry(x0) |───────■────────────────────────■───────────────
+     |   |        |       |                        |               
+q_1: | H | Ry(x1) |─[ H ]─┼──[ X ]─[ Rz(x0*x1) ]──[ H ]──[ X ]─────
+     |   |        |       |                                        
+q_2: | H | Ry(x2) |───────┼────────────────────────■───────────────
+     |   |        |       |                        |               
+q_3: | H | Ry(x3) |───────■───────────────────────[ X ]─[ Rz(x2*x3) ]
+     |   |        |       
+q_4: | H | Ry(x4) |───────■────────────────────────────────────────
+                </div>
+              </div>
+
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: var(--neon-cyan);">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/>
+                </svg>
+                <span>Features are RFE / PCA reduced and standard encoded using ZZFeatureMap.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Section 4: Quantum vs Classical Model Benchmarks & ROC Curves (Image 4)
+         ========================================================================== -->
+    <section class="section-wrapper" id="benchmarks">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Unified Metric Benchmarking</div>
+          <h2 class="section-title">Quantum vs Classical <span class="gradient-text">Model Benchmarks</span></h2>
+          <p class="section-desc">
+            Experimental evaluation results directly from the research notebooks. Bagging-QSVC achieves the highest diagnostic test accuracy and ROC-AUC across all tested models.
+          </p>
+        </div>
+
+        <div class="glass-panel">
+          <!-- Table -->
+          <div class="table-responsive">
+            <table class="benchmarks-table">
+              <thead>
+                <tr>
+                  <th>Model Class</th>
+                  <th>Test Accuracy</th>
+                  <th>Precision</th>
+                  <th>Recall (Sensitivity)</th>
+                  <th>F1 Score</th>
+                  <th>ROC-AUC</th>
+                </tr>
+              </thead>
+              <tbody id="benchmarks-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Bottom 2-col Visuals (Multi-Metric bars + ROC Curves from Image 4) -->
+          <div class="charts-row-2col">
+            <!-- Multi-Metric Grouped Bars -->
+            <div style="background: rgba(11, 18, 33, 0.85); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem;">
+              <h4 style="font-size: 1.05rem; margin-bottom: 4px;">Multi-Metric Benchmarking</h4>
+              <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 1.5rem;">
+                Comparing Accuracy, F1 Score, and Precision across classifiers.
+              </p>
+
+              <div class="chart-container-box" id="results-multi-bar-chart" style="height: 200px; display: flex; align-items: flex-end; gap: 20px; border-bottom: 1px solid var(--border-subtle);">
+                <!-- Dynamic bars -->
+              </div>
+
+              <div class="chart-legend-row" style="display: flex; gap: 18px; justify-content: center; margin-top: 1.25rem; font-size: 0.78rem;">
+                <span style="color: #3b82f6;">● Accuracy</span>
+                <span style="color: var(--neon-purple);">● F1 Score</span>
+                <span style="color: var(--neon-cyan);">● Precision</span>
+              </div>
+            </div>
+
+            <!-- Receiver Operating Characteristic (ROC) Curves -->
+            <div style="background: rgba(11, 18, 33, 0.85); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem;">
+              <h4 style="font-size: 1.05rem; margin-bottom: 4px;">Receiver Operating Characteristic (ROC) Curves</h4>
+              <p style="font-size: 0.8rem; color: var(--text-dim); margin-bottom: 1rem;">
+                Tradeoff plot showing True Positive Rate (Sensitivity) vs. False Positive Rate.
+              </p>
+
+              <div class="roc-chart-wrapper">
+                <svg class="roc-svg" viewBox="0 0 350 200">
+                  <line x1="30" y1="20" x2="30" y2="170" stroke="rgba(148, 163, 184, 0.25)" stroke-width="1"/>
+                  <line x1="30" y1="170" x2="330" y2="170" stroke="rgba(148, 163, 184, 0.25)" stroke-width="1"/>
+                  <line x1="30" y1="170" x2="330" y2="20" stroke="rgba(148, 163, 184, 0.2)" stroke-width="1" stroke-dasharray="4"/>
+                  
+                  <text x="5" y="25" font-size="9" fill="var(--text-muted)">1.0</text>
+                  <text x="5" y="95" font-size="9" fill="var(--text-muted)">0.5</text>
+                  <text x="15" y="170" font-size="9" fill="var(--text-muted)">0</text>
+
+                  <text x="30" y="185" font-size="9" fill="var(--text-muted)">0</text>
+                  <text x="175" y="185" font-size="9" fill="var(--text-muted)">0.5</text>
+                  <text x="320" y="185" font-size="9" fill="var(--text-muted)">1.0</text>
+
+                  <!-- Curves -->
+                  <path d="M 30 170 Q 55 35, 330 20" stroke="#10b981" stroke-width="2.5" fill="none"/>
+                  <path d="M 30 170 Q 75 55, 330 20" stroke="#00f2fe" stroke-width="2" fill="none"/>
+                  <path d="M 30 170 Q 90 70, 330 20" stroke="#3b82f6" stroke-width="2" fill="none"/>
+                  <path d="M 30 170 Q 105 85, 330 20" stroke="#a855f7" stroke-width="2" fill="none"/>
+                </svg>
+              </div>
+
+              <div class="chart-legend-row" style="display: flex; gap: 14px; justify-content: center; margin-top: 1rem; font-size: 0.72rem; flex-wrap: wrap;">
+                <span style="color: #10b981;">● Bagging-QSVC (AUC: 0.945)</span>
+                <span style="color: #00f2fe;">● QSVC (AUC: 0.920)</span>
+                <span style="color: #3b82f6;">● SVM (AUC: 0.880)</span>
+                <span style="color: #a855f7;">● VQC (AUC: 0.895)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         Section 5: Multi-Dataset Explorer
+         ========================================================================== -->
+    <section class="section-wrapper" id="dataset">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-tag">Clinical Patient Cohort Explorer</div>
+          <h2 class="section-title">Dataset <span class="gradient-text">Interactive Explorer</span></h2>
+          <p class="section-desc">
+            Explore authentic patient clinical records from the Cleveland Clinic Foundation (303 records) and Pima Indians Diabetes cohort (768 records). Click any record to load their biomarkers into the Predictor.
+          </p>
+        </div>
+
+        <div class="glass-panel">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+            <div style="display: flex; gap: 1rem; flex: 1; max-width: 600px;">
+              <input type="text" class="input-control" id="dataset-search" placeholder="Search patient ID, age, blood pressure, etc...">
+              <select class="select-control" id="dataset-target-filter" style="width: 200px;">
+                <option value="all">All Records</option>
+                <option value="1">Positive (Class 1)</option>
+                <option value="0">Negative (Class 0)</option>
+              </select>
+            </div>
+            <div style="font-size: 0.85rem; color: var(--neon-cyan); font-family: var(--font-mono);" id="dataset-count-display">
+              Showing 15 patient records
+            </div>
+          </div>
+
+          <div class="dataset-table-box">
+            <table class="benchmarks-table">
+              <thead id="cohort-thead">
+                <!-- Dynamically populated based on dataset -->
+              </thead>
+              <tbody id="cohort-tbody">
+                <!-- Dynamically populated -->
+              </tbody>
+            </table>
+          </div>
+          <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 10px;">
+            💡 Click any row above to immediately load that patient's exact clinical values into the Quantum Diagnostic Predictor.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Clinical Diagnostic PDF / Report Modal -->
+  <div class="modal-backdrop" id="report-modal">
+    <div class="report-modal">
+      <button class="report-close-btn" id="btn-close-report">&times;</button>
+      <div id="report-body">
+        <!-- Injected dynamically -->
+      </div>
+      <div style="margin-top: 1.5rem; display: flex; justify-content: flex-end; gap: 12px;">
+        <button class="btn-secondary" onclick="document.getElementById('report-modal').classList.remove('active')">Close</button>
+        <button class="btn-primary" id="btn-print-report">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/>
+          </svg>
+          Print / Save PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div>
+          <h4 style="font-size: 1.1rem; color: var(--text-white); margin-bottom: 4px;">
+            QuantumHealth-AI Research Platform
+          </h4>
+          <p style="font-size: 0.85rem; color: var(--text-dim);">
+            Explainable Disease Prediction Using Ensemble-Quantum Machine Learning
+          </p>
+          <div style="font-size: 0.78rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 4px;">
+            Powered by Qiskit Quantum SDK · Scikit-Learn · SHAP Framework · Cleveland & Pima Cohorts
+          </div>
+        </div>
+        <div>
+          <button class="btn-secondary" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            ↑ Back to Top
+          </button>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
